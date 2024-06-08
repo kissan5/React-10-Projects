@@ -1,7 +1,11 @@
 import React from "react";
 
 const Navbar = () => {
-  return <div className="m-4 h-[60px] rounded-lg bg-orange">Navbar</div>;
+  return (
+    <div className="m-6 text-white text-3xl">
+      <h1>Contacts</h1>
+    </div>
+  );
 };
 
 export default Navbar;
