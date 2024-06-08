@@ -11,7 +11,7 @@ const firebaseConfig = {
   projectId: "vite-contact-ca220",
   storageBucket: "vite-contact-ca220.appspot.com",
   messagingSenderId: "327269397520",
-  appId: "1:327269397520:web:51b197c133228d9d4ec695"
+  appId: "1:327269397520:web:51b197c133228d9d4ec695",
 };
 
 // Initialize Firebase
