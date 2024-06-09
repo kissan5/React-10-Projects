@@ -3,13 +3,15 @@ import Navbar from "./components/Navbar";
 import { FiSearch } from "react-icons/fi";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { IoIosContact } from "react-icons/io";
+import { PiDotsThreeOutlineVerticalLight } from "react-icons/pi";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./config/firebase";
 import AddAndUpdateContact from "./components/AddAndUpdateContact";
+import ContactCard from "./components/ContactCard";
 
 const App = () => {
   const [contacts, setContacts] = useState([]);
-  const [isOpen, setOpen] = useState([]);
+  const [isOpen, setOpen] = useState(false); 
 
   useEffect(() => {
     const getContacts = async () => {
@@ -51,27 +53,18 @@ const App = () => {
           <div>
             <AiFillPlusCircle
               onClick={onOpen}
-              className="text-5xl cursor-pointer text-white"
+              className="text-5xl cursor-pointer text-blue"
             />
           </div>
         </div>
 
         <div>
           {contacts.map((contact) => (
-            <div
-              key={contact.id}
-              className="flex items-center border-b border-gray-300 py-2"
-            >
-              <IoIosContact className="text-white text-5xl mr-2" />
-              <div className="text-white">
-                <h2>{contact.name}</h2>
-                <p>{contact.email}</p>
-              </div>
-            </div>
+            <ContactCard key={contact.id} contact={contact}/>
           ))}
         </div>
       </div>
-      <AddAndUpdateContact isOpen={isOpen} onClose={onClose}/>
+      <AddAndUpdateContact isOpen={isOpen} onClose={onClose} />
     </>
   );
 };
