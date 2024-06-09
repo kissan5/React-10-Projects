@@ -31,7 +31,8 @@ const AddAndUpdateContact = ({ isOpen, onClose }) => {
          }}
          onSubmit={handleSubmit}
         >
-          <Form className="flex flex-col gap-2">
+          <Form className="flex flex-col gap-2 rounded-lg">
+            <h1 className='font-bold text-center'>Add Contact</h1>
             <div className="flex flex-col gap-1 ">
               <label htmlFor="name">Name</label>
               <Field name="name" className="h-10 border" />
@@ -47,7 +48,7 @@ const AddAndUpdateContact = ({ isOpen, onClose }) => {
               <Field name="phone" className="h-10 border" />
             </div>
 
-            <button className="self-end border bg-blue px-3 py-1.5 text-white">Add to Contact</button>
+            <button className="self-end border bg-blue px-3 py-1.5 text-white rounded" >Add</button>
           </Form>
         </Formik>
       </Modal>
