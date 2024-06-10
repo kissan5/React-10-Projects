@@ -8,10 +8,11 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "./config/firebase";
 import AddAndUpdateContact from "./components/AddAndUpdateContact";
 import ContactCard from "./components/ContactCard";
+import useDisclouse from "./hooks/useDisclouse";
 
 const App = () => {
   const [contacts, setContacts] = useState([]);
-  const [isOpen, setOpen] = useState(false); 
+  const {isOpen, onClose, onOpen} = useDisclouse(); 
 
   useEffect(() => {
     const getContacts = async () => {
@@ -30,21 +31,15 @@ const App = () => {
     getContacts();
   }, []);
 
-  const onOpen = () => {
-    setOpen(true);
-  };
-
-  const onClose = () => {
-    setOpen(false);
-  };
+ 
 
   return (
     <>
       <div className="mx-auto max-w-[370px] px-4">
         <Navbar />
-        <div className="flex gap-2">
+        <div className="flex gap-2 mb-5 ">
           <div className="relative flex flex-grow items-center">
-            <FiSearch className="ml-1 absolute text-white text-2xl" />
+            <FiSearch className="ml-1 absolute text-white text-2xl " />
             <input
               type="text"
               className="h-10 flex-grow rounded-md border border-white bg-transparent text-white pl-9"
