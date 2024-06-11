@@ -7,19 +7,20 @@ const Modal = ({ isOpen, onClose, children }) => {
     <>
       {isOpen && (
         <>
-          <div className="relative z-50 min-h-[200px] max-w-[80%] m-auto bg-white p-4">
-            <div className="flex justify-end">
-              <AiOutlineClose
-                onClick={onClose}
-                className="self-end text-2xl cursor-pointer"
-              />
+          <div className="fixed inset-0 flex items-center justify-center z-50">
+            <div className="relative min-h-[200px] max-w-md bg-white p-4 rounded shadow-lg">
+              <div className="flex justify-end">
+                <AiOutlineClose
+                  onClick={onClose}
+                  className="self-end text-2xl cursor-pointer"
+                />
+              </div>
+              {children}
             </div>
-            {children}
           </div>
-
           <div
             onClick={onClose}
-            className="absolute top-0 z-40 h-screen w-screen backdrop-blur"
+            className="fixed inset-0 z-40 bg-black bg-opacity-25 backdrop-blur-sm"
           />
         </>
       )}
