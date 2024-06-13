@@ -26,9 +26,9 @@ const ContactCard = ({ contact, onDelete }) => {
   const handleDelete = async (id) => {
     try {
       await deleteDoc(doc(db, "contacts", id));
-      onDelete(id);
       console.log("Contact deleted successfully:", id);
       setViewModalOpen(false);
+      onClose();
     } catch (error) {
       console.error("Error deleting contact:", error);
     }
