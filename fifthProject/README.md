@@ -8,6 +8,9 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
 
-<img src="Screenshot1.png" width=50%>
 <h1>Screenshot of the project</h1>
+<img src="Screenshot1.png" width=30%>
+<img src="Screenshot2.png" width=20%>
+<img src="Screenshot3.png" width=10%>
+<img src="Screenshot4.png" width=10%>
 
