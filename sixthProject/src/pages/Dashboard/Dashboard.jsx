@@ -3,9 +3,9 @@ import Sidenav from '../../components/Sidenav'
 
 const Dashboard = () => {
   return (
-    <Box>
+    <div>
       <Sidenav/>
-    </Box>
+    </div>
   )
 }
 
