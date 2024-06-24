@@ -4,26 +4,32 @@ import { FiSearch } from "react-icons/fi";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { IoIosContact } from "react-icons/io";
 import { PiDotsThreeOutlineVerticalLight } from "react-icons/pi";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
 import { db } from "./config/firebase";
 import AddAndUpdateContact from "./components/AddAndUpdateContact";
 import ContactCard from "./components/ContactCard";
 import useDisclouse from "./hooks/useDisclouse";
 
+
 const App = () => {
   const [contacts, setContacts] = useState([]);
-  const {isOpen, onClose, onOpen} = useDisclouse(); 
+  const { isOpen, onClose, onOpen } = useDisclouse();
 
   useEffect(() => {
     const getContacts = async () => {
       try {
         const contactsRef = collection(db, "contacts");
-        const contactsSnapshot = await getDocs(contactsRef);
-        const contactLists = contactsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setContacts(contactLists);
+
+        onSnapshot(contactsRef, (snapshot) => {
+          const contactLists = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setContacts(contactLists);
+          return contactLists;
+        })
+
+        
       } catch (error) {
         console.error("Error fetching contacts: ", error);
       }
@@ -31,7 +37,9 @@ const App = () => {
     getContacts();
   }, []);
 
- 
+  const handleDeleteContact = (id) => {
+    setContacts(contacts.filter((contact) => contact.id !== id));
+  };
 
   return (
     <>
@@ -55,11 +63,15 @@ const App = () => {
 
         <div>
           {contacts.map((contact) => (
-            <ContactCard key={contact.id} contact={contact}/>
+            <ContactCard key={contact.id} contact={contact} onDelete={handleDeleteContact}/>
           ))}
         </div>
       </div>
-      <AddAndUpdateContact isOpen={isOpen} onClose={onClose} />
+      <AddAndUpdateContact
+        isOpen={isOpen}
+        onClose={onClose}
+        
+      />
     </>
   );
 };

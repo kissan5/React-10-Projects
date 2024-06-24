@@ -5,6 +5,8 @@ import Modal from "../components/Modal";
 import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import AddAndUpdateContact from "./AddAndUpdateContact";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ContactCard = ({ contact, onDelete }) => {
   const [viewModalOpen, setViewModalOpen] = useState(false);
@@ -26,10 +28,10 @@ const ContactCard = ({ contact, onDelete }) => {
   const handleDelete = async (id) => {
     try {
       await deleteDoc(doc(db, "contacts", id));
-      console.log("Contact deleted successfully:", id);
+      toast.success("Contact deleted successfully:", id);
       setViewModalOpen(false);
-      onDelete(id);
       onClose();
+      onDelete(id);
     } catch (error) {
       console.error("Error deleting contact:", error);
     }
@@ -52,7 +54,6 @@ const ContactCard = ({ contact, onDelete }) => {
           </p>
         </div>
       </div>
-      
 
       {/* View Modal */}
       <Modal isOpen={viewModalOpen} onClose={toggleViewModal}>
@@ -73,19 +74,19 @@ const ContactCard = ({ contact, onDelete }) => {
       </Modal>
 
       {/* Edit Modal */}
-      <AddAndUpdateContact isUpdate
+      <AddAndUpdateContact
+        isUpdate
         isOpen={editModalOpen}
         onClose={closeEditModal}
         initialValues={contact}
         title="Edit Contact"
       />
-<div className="flex ">
+      <div className="flex ">
         <PiDotsThreeOutlineVerticalLight
           className="text-white mr-4 cursor-pointer"
           onClick={toggleViewModal}
         />
       </div>
-
     </div>
   );
 };
