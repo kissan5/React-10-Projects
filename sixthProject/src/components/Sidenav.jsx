@@ -28,7 +28,7 @@ const Sidenav = () => {
           as="h1"
           pt="3.5rem"
         >
-          @DOSOMECODING
+          EducationHub
         </Heading>
 
         <Box mt="6" mx="3" mb="6">

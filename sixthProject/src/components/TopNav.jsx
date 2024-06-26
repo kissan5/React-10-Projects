@@ -14,11 +14,11 @@ import {
 import React from "react";
 import { FaUserTie } from "react-icons/fa";
 
-const TopNav = () => {
+const TopNav = ({title}) => {
   return (
     <Box> 
       <HStack maxW="1280px" h="16" justify="space-between" px="32" mx="auto">
-        <Heading fontWeight="medium" fontSize="28px">Dashboard</Heading>
+        <Heading fontWeight="medium" fontSize="28px">title</Heading>
         <Menu>
           <MenuButton>
             <Icon as={FaUserTie} fontSize="24px"/>
