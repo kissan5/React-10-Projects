@@ -1,14 +1,12 @@
 import React from "react";
 import {
-  Button,
   Drawer,
   DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
 } from "@chakra-ui/react";
+import Sidenav from "./Sidenav";
 
 const SideDrawer = ({ isOpen, onClose, btnRef }) => {
   return (
@@ -22,16 +20,9 @@ const SideDrawer = ({ isOpen, onClose, btnRef }) => {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>Create your account</DrawerHeader>
 
-          <DrawerBody>btnRef</DrawerBody>
 
-          <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button colorScheme="blue">Save</Button>
-          </DrawerFooter>
+          <DrawerBody> <Sidenav/> </DrawerBody>
         </DrawerContent>
       </Drawer>
     </>
