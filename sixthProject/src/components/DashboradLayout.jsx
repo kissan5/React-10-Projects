@@ -15,7 +15,7 @@ const DashboardLayout = ({ title, children }) => {
       <SideDrawer isOpen={isOpen} onClose={onClose} />
       <Box flexGrow={1}>
         <TopNav title={title} onOpen={onOpen} />
-        <Container mt="6" maxW="1280px" bg="red">
+        <Container mt="6" maxW="70rem">
           {children}
         </Container>
       </Box>
