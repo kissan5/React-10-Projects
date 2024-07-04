@@ -24,7 +24,7 @@ const Sidenav = () => {
       justify="space-between"
       boxShadow={{ base: "none", lg: "lg" }}
       w={{ base: "full", lg: "16rem" }}
-      h="100vh"
+      h="full"
     >
       <Box>
         <Heading
