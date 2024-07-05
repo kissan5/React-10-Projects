@@ -17,8 +17,8 @@ const DashboardLayout = ({ title, children }) => {
         <TopNav title={title} onOpen={onOpen} />
         <Container
           overflowX="hidden"
-          overFlowY="auto"
-          h="calc(100vh-88px)"
+          overflowY="auto"
+          h="calc(100vh - 88px)"
           mt="6"
           maxW="70rem"
         >
