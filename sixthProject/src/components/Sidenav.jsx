@@ -3,6 +3,7 @@ import React from "react";
 import { BiSupport } from "react-icons/bi";
 import { BsArrowDownUp } from "react-icons/bs";
 import { RxDashboard } from "react-icons/rx";
+import { Link } from "react-router-dom";
 
 const Sidenav = () => {
   const navLinks = [
@@ -39,19 +40,20 @@ const Sidenav = () => {
 
         <Box mt="6" mx="3" mb="6">
           {navLinks.map((nav) => (
-            <HStack
-              borderRadius="10px"
-              key={nav.text}
-              px="4"
-              py="3"
-              _hover={{ bg: "#f3f3f7", color: "#171717", cursor: "pointer" }}
-              color="#797E82"
-            >
-              <Icon as={nav.icon} />
-              <Text fontSize="14px" fontWeight="medium">
-                {nav.text}
-              </Text>
-            </HStack>
+            <Link to={nav.link} key={nav.text}>
+              <HStack
+                borderRadius="10px"
+                px="4"
+                py="3"
+                _hover={{ bg: "#f3f3f7", color: "#171717", cursor: "pointer" }}
+                color="#797E82"
+              >
+                <Icon as={nav.icon} />
+                <Text fontSize="14px" fontWeight="medium">
+                  {nav.text}
+                </Text>
+              </HStack>
+            </Link>
           ))}
         </Box>
       </Box>
