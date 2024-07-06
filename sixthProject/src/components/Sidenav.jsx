@@ -39,8 +39,8 @@ const Sidenav = () => {
         </Heading>
 
         <Box mt="6" mx="3" mb="6">
-          {navLinks.map((nav) => (
-            <Link to={nav.link} key={nav.text}>
+          {navLinks.map((nav, index) => ( // Add index as the second parameter
+            <Link to={nav.link} key={index}>
               <HStack
                 borderRadius="10px"
                 px="4"
