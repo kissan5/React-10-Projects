@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import TransactionPage from "./pages/Dashboard/components/Transactions";
+import TransactionPage from "./pages//Transaction/Transaction";
 import Support from "./pages/Support/Support";
 
 const router = createBrowserRouter([
