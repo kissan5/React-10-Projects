@@ -51,8 +51,7 @@ const DisplayAlbum = () => {
             <img className="inline w-10 mr-5" src={item.image} alt="" />
             {item.name}
           </p>
-          <p className="text-[15px]">{item.albumName}</p>{" "}
-          {/* Changed to access item's albumName */}
+          <p className="text-[15px]">{albumData.name}</p>
           <p className="text-[15px] hidden sm:block">2 days ago</p>
           <p className="text-[15px] text-center">{item.duration}</p>
         </div>
