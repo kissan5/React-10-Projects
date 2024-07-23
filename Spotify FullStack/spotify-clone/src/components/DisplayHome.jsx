@@ -6,7 +6,6 @@ import { songsData } from "../assets/assets";
 import SongItem from "./SongItem";
 
 const DisplayHome = () => {
-  console.log(albumsData);
   return (
     <>
       <Navbar />
