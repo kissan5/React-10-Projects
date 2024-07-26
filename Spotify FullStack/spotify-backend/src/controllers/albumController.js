@@ -27,8 +27,23 @@ const addAlbum = async (req, res) => {
   }
 };
 
-const listAlbum = async (req, res) => {};
+const listAlbum = async (req, res) => {
+  try {
+    const allAlbum = await albumModel.find({});
+    res.json({ success: true, message: "All Albums" });
+  } catch (error) {
+    res.json({ success: false, messgae: "album not found" });
+  }
+};
 
-const removeAlbum = async (req, res) => {};
+const removeAlbum = async (req, res) => {
+  try {
+    await albumModel.findByIdAndDelete(req.body.id);
+    res.json({ success: true, message: "album removed" });
+  } catch (error) {
+    res.json({ success: false, message: "album not found" });
+  }
+};
+
 
 export { addAlbum, listAlbum, removeAlbum };
