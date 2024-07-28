@@ -10,7 +10,7 @@ const ListAlbum = () => {
     try {
       const response = await axios.get(`${url}/api/album/list`);
       if (response.data.success) {
-        setData(response.data.albums);
+        setData(response.data.data);
       } else {
         toast.error("Unable to load albums data");
       }
@@ -18,9 +18,9 @@ const ListAlbum = () => {
       toast.error("Error Occur");
     }
   };
-  const removeAlbum = async () => {
+  const removeAlbum = async (id) => {
     try {
-      const response = await axios.get(`${url}/api/album/remove`, { id });
+      const response = await axios.post(`${url}/api/album/remove`, { id });
 
       if (response.data.success) {
         setData(response.data.message);
@@ -48,7 +48,7 @@ const ListAlbum = () => {
           <b>Album Colour</b>
           <b>Action</b>
         </div>
-        {data.map((item, index) => {
+        {data?.map((item, index) => {
           return (
             <div
               key={index}
