@@ -30,7 +30,7 @@ const addAlbum = async (req, res) => {
 const listAlbum = async (req, res) => {
   try {
     const allAlbum = await albumModel.find({});
-    res.json({ success: true, message: "All Albums" });
+    res.json({ success: true, message: "All Albums", data: allAlbum });
   } catch (error) {
     res.json({ success: false, messgae: "album not found" });
   }
