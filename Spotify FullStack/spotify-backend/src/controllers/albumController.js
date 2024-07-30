@@ -23,16 +23,16 @@ const addAlbum = async (req, res) => {
 
     res.json({ success: true, message: "Album added" });
   } catch (error) {
-    res.json({ success: false, messgae: "Error adding album" });
+    res.json({ success: false, message: "Error adding album" });
   }
 };
 
 const listAlbum = async (req, res) => {
   try {
     const allAlbum = await albumModel.find({});
-    res.json({ success: true, message: "All Albums", data: allAlbum });
+    res.json({ success: true, message: "All Albums", albums: allAlbum });
   } catch (error) {
-    res.json({ success: false, messgae: "album not found" });
+    res.json({ success: false, message: "album not found" });
   }
 };
 
@@ -44,6 +44,5 @@ const removeAlbum = async (req, res) => {
     res.json({ success: false, message: "album not found" });
   }
 };
-
 
 export { addAlbum, listAlbum, removeAlbum };
