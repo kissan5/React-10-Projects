@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form } from "react-router-dom";
 import { assets } from "../assets/assets";
 import axios from "axios";
@@ -28,8 +28,9 @@ const AddSong = () => {
       formData.append("album", album);
 
       const response = await axios.post(`${url}/api/song/add`, formData);
+      
 
-      if (response.data.sucess) {
+      if (response.data.success) {
         toast.success("Song Added successfully");
         setName("");
         setDesc("");
@@ -38,11 +39,26 @@ const AddSong = () => {
         setSong(false);
       }
     } catch (error) {
-      console.log(error);
-      toast.error("Error occured");
+      toast.error("failed to add song");
     }
     setLoading(false);
   };
+
+  const loadAlbumData = async () => {
+    try {
+      const response = await axios.get(`${url}/api/album/list`);
+
+      if (response.data.success) {
+        setAlbumData(response.data.albums);
+      }
+    } catch (error) {
+      toast.error("Error occur");
+    }
+  };
+
+  useEffect(() => {
+    loadAlbumData();
+  }, []);
 
   return loading ? (
     <div className="grid place-items-center min-h-[80vh]">
@@ -123,6 +139,11 @@ const AddSong = () => {
           className="bg-transparent outline-green-600 border-2 border-gray-400 p-2.5 w-[150px]"
         >
           <option value="none">None</option>
+          {albumData.map((item, index) => (
+            <option key={index} value={item.name}>
+              {item.name}
+            </option>
+          ))}
         </select>
       </div>
       <button
