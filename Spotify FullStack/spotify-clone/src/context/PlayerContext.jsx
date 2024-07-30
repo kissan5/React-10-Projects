@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { createContext, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { createContext } from "react";
 import axios from "axios";
 
 export const PlayerContext = createContext();
@@ -13,7 +13,7 @@ const PlayerContextProvider = (props) => {
 
   const [songsData, setSongsData] = useState([]);
   const [albumsData, setAlbumsData] = useState([]);
-  const [track, setTrack] = useState(songsData[0]);
+  const [track, setTrack] = useState(null);
   const [playStatus, setPlayStatus] = useState(false);
   const [time, setTime] = useState({
     currentTime: {
@@ -26,59 +26,66 @@ const PlayerContextProvider = (props) => {
     },
   });
 
-  const play = () => {
-    audioRef.current.play();
-    setPlayStatus(true);
+  const play = async () => {
+    if (audioRef.current && !playStatus) {
+      try {
+        await audioRef.current.play();
+        setPlayStatus(true);
+      } catch (error) {
+        console.error('Play error:', error);
+      }
+    }
   };
 
   const pause = () => {
-    audioRef.current.pause();
-    setPlayStatus(false);
+    if (audioRef.current && playStatus) {
+      audioRef.current.pause();
+      setPlayStatus(false);
+    }
   };
 
   const playWithId = async (id) => {
-    await songsData.map((item) => {
-      if (id === item._id) {
-        setTrack(item);
-      }
-    });
-
-    await audioRef.current.play();
-    setPlayStatus(true);
+    const selectedTrack = songsData.find(item => item._id === id);
+    if (selectedTrack) {
+      setTrack(selectedTrack);
+    }
   };
 
   const previous = async () => {
-    songsData.map(async (item, index) => {
-      if (track._id === item._id && index > 0) {
-        await setTrack(songsData[index - 1]);
-        await audioRef.current.play();
-        setPlayStatus(true);
+    if (track) {
+      const currentIndex = songsData.findIndex(item => item._id === track._id);
+      if (currentIndex > 0) {
+        const previousTrack = songsData[currentIndex - 1];
+        setTrack(previousTrack);
       }
-    });
+    }
   };
 
   const next = async () => {
-    songsData.map(async (item, index) => {
-      if (track._id === item._id && index < songsData.length) {
-        await setTrack(songsData[index + 1]);
-        await audioRef.current.play();
-        setPlayStatus(true);
+    if (track) {
+      const currentIndex = songsData.findIndex(item => item._id === track._id);
+      if (currentIndex < songsData.length - 1) {
+        const nextTrack = songsData[currentIndex + 1];
+        setTrack(nextTrack);
       }
-    });
+    }
   };
 
-  const seekSong = async (e) => {
-    audioRef.current.currentTime =
-      (e.nativeEvent.offsetX / seekBg.current.offsetWidth) *
-      audioRef.current.duration;
+  const seekSong = (e) => {
+    if (audioRef.current) {
+      audioRef.current.currentTime =
+        (e.nativeEvent.offsetX / seekBg.current.offsetWidth) *
+        audioRef.current.duration;
+    }
   };
 
   const getSongsData = async () => {
     try {
       const response = await axios.get(`${url}/api/song/list`);
-      // console.log("res", response);
       setSongsData(response.data.songs);
-      setTrack(response.data.songs[0]);
+      if (response.data.songs.length > 0) {
+        setTrack(response.data.songs[0]);
+      }
     } catch (error) {
       console.error("Error fetching songs data:", error);
     }
@@ -99,12 +106,28 @@ const PlayerContextProvider = (props) => {
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      audioRef.current.ontimeupdate = () => {
+    if (track && audioRef.current) {
+      console.log('Setting audio source to:', track.audio);
+      audioRef.current.src = track.audio;
+      audioRef.current.load();
+      // Start playback after setting the source
+      const playAudio = async () => {
+        try {
+          await audioRef.current.play();
+          setPlayStatus(true);
+        } catch (error) {
+          console.error('Play error:', error);
+        }
+      };
+      playAudio(); // Ensure playback starts after setting the source
+    }
+  }, [track]);
+
+  useEffect(() => {
+    const updateSeekBar = () => {
+      if (audioRef.current && seekBar.current) {
         seekBar.current.style.width =
-          Math.floor(
-            (audioRef.current.currentTime / audioRef.current.duration) * 100
-          ) + "%";
+          Math.floor((audioRef.current.currentTime / audioRef.current.duration) * 100) + "%";
         setTime({
           currentTime: {
             second: Math.floor(audioRef.current.currentTime % 60),
@@ -115,8 +138,18 @@ const PlayerContextProvider = (props) => {
             minute: Math.floor(audioRef.current.duration / 60),
           },
         });
-      };
-    }, 1000);
+      }
+    };
+
+    if (audioRef.current) {
+      audioRef.current.ontimeupdate = updateSeekBar;
+    }
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.ontimeupdate = null;
+      }
+    };
   }, [audioRef]);
 
   const contextValue = {
