@@ -1,15 +1,26 @@
 import React, { useContext } from "react";
 import Navbar from "./Navbar";
 import { useParams } from "react-router-dom";
-import { albumsData, assets, songsData } from "../assets/assets";
+import { assets } from "../assets/assets";
 import { PlayerContext } from "../context/PlayerContext";
+import { useState } from "react";
+import { useEffect } from "react";
 
-const DisplayAlbum = () => {
+const DisplayAlbum = ({album}) => {
   const { id } = useParams();
-  const albumData = albumsData[id];
-  const {playWithId} = useContext(PlayerContext)
+  const [albumData, setAlbumData ] = useState("");
+  const {playWithId, albumsData, songsData} = useContext(PlayerContext)
+  
+useEffect(()=>{
+  albumsData.map((item) => {
+if (item._id === id) {
+  setAlbumData(item);
+}
+  })
+},[]);
 
-  return (
+
+  return albumData ? (
     <>
       <Navbar />
       <div className="mt-10 flex gap-8 flex-col md:flex-row md:items-end">
@@ -20,7 +31,7 @@ const DisplayAlbum = () => {
             {albumData.name}
           </h2>
           <h4>{albumData.desc}</h4>
-          <p className="mt-1">
+          <p className="mt-1 flex items-center space-x-2">
             <img
               className="inline-block w-5"
               src={assets.spotify_logo}
@@ -42,8 +53,8 @@ const DisplayAlbum = () => {
         <img className="m-auto w-4" src={assets.clock_icon} alt="" />
       </div>
       <hr />
-      {songsData.map((item, index) => (
-        <div onClick={()=>playWithId(item.id)}
+      {songsData.filter((item) => item.album === album.name).map((item, index) => (
+        <div onClick={()=>playWithId(item._id)}
           key={index}
           className="grid grid-cols-3 sm:grid-cols-4 gap-2 p-2 items-center text-[#a7a7a7] hover:bg-[#ffffff2b] cursor-pointer" // Added comments here
         >
@@ -57,8 +68,15 @@ const DisplayAlbum = () => {
           <p className="text-[15px] text-center">{item.duration}</p>
         </div>
       ))}
+      {/* <h1>Play song</h1>
+      {songsData?.map((song, index) => (
+        <div key={index}>
+        <audio src="https://res.cloudinary.com/dain4uxsm/video/upload/v1722184042/lb2lcyea9ukqegeg6bjr.mp3" preload="auto" controls></audio>
+      </div>
+      
+      ))} */}
     </>
-  );
+  ): null;
 };
 
 export default DisplayAlbum;
