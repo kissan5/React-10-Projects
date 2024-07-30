@@ -10,7 +10,7 @@ const ListAlbum = () => {
     try {
       const response = await axios.get(`${url}/api/album/list`);
       if (response.data.success) {
-        setData(response.data.data);
+        setData(response.data.albums);
       } else {
         toast.error("Unable to load albums data");
       }
@@ -18,19 +18,20 @@ const ListAlbum = () => {
       toast.error("Error Occur");
     }
   };
+
   const removeAlbum = async (id) => {
     try {
       const response = await axios.post(`${url}/api/album/remove`, { id });
 
       if (response.data.success) {
-        setData(response.data.message);
         await fetchAlbums();
+        toast.success("Album removed successfully");
       }
     } catch (error) {
       toast.error("Error Occured");
     }
   };
-
+  console.log(data);
   useEffect(() => {
     fetchAlbums();
   }, []);
@@ -57,7 +58,7 @@ const ListAlbum = () => {
               <img className="w-12" src={item.image} alt="" />
               <p>{item.name}</p>
               <p>{item.desc}</p>
-              <input type="color" value={item.bgColour} />
+              <input type="color" value={item.bgColour} readOnly />
               <p
                 onClick={() => removeAlbum(item._id)}
                 className="cursor-pointer"
