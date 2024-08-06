@@ -6,19 +6,18 @@ import { PlayerContext } from "../context/PlayerContext";
 import { useState } from "react";
 import { useEffect } from "react";
 
-const DisplayAlbum = ({album}) => {
+const DisplayAlbum = ({ album }) => {
   const { id } = useParams();
-  const [albumData, setAlbumData ] = useState("");
-  const {playWithId, albumsData, songsData} = useContext(PlayerContext)
-  
-useEffect(()=>{
-  albumsData.map((item) => {
-if (item._id === id) {
-  setAlbumData(item);
-}
-  })
-},[]);
+  const [albumData, setAlbumData] = useState("");
+  const { playWithId, albumsData, songsData } = useContext(PlayerContext);
 
+  useEffect(() => {
+    albumsData.map((item) => {
+      if (item._id === id) {
+        setAlbumData(item);
+      }
+    });
+  }, []);
 
   return albumData ? (
     <>
@@ -31,7 +30,7 @@ if (item._id === id) {
             {albumData.name}
           </h2>
           <h4>{albumData.desc}</h4>
-          <p className="mt-1 flex items-center space-x-2">
+          <p className="mt-1 flex items-center gap-2">
             <img
               className="inline-block w-5"
               src={assets.spotify_logo}
@@ -53,30 +52,26 @@ if (item._id === id) {
         <img className="m-auto w-4" src={assets.clock_icon} alt="" />
       </div>
       <hr />
-      {songsData.filter((item) => item.album === album.name).map((item, index) => (
-        <div onClick={()=>playWithId(item._id)}
-          key={index}
-          className="grid grid-cols-3 sm:grid-cols-4 gap-2 p-2 items-center text-[#a7a7a7] hover:bg-[#ffffff2b] cursor-pointer" // Added comments here
-        >
-          <p className="text-white">
-            <b className="mr-4 text-[#a7a7a7]">{index + 1}</b>
-            <img className="inline w-10 mr-5" src={item.image} alt="" />
-            {item.name}
-          </p>
-          <p className="text-[15px]">{albumData.name}</p>
-          <p className="text-[15px] hidden sm:block">2 days ago</p>
-          <p className="text-[15px] text-center">{item.duration}</p>
-        </div>
-      ))}
-      {/* <h1>Play song</h1>
-      {songsData?.map((song, index) => (
-        <div key={index}>
-        <audio src="https://res.cloudinary.com/dain4uxsm/video/upload/v1722184042/lb2lcyea9ukqegeg6bjr.mp3" preload="auto" controls></audio>
-      </div>
-      
-      ))} */}
+      {songsData
+        .filter((item) => item.album === album.name)
+        .map((item, index) => (
+          <div
+            onClick={() => playWithId(item._id)}
+            key={index}
+            className="grid grid-cols-3 sm:grid-cols-4 gap-2 p-2 items-center text-[#a7a7a7] hover:bg-[#ffffff2b] cursor-pointer" // Added comments here
+          >
+            <p className="text-white">
+              <b className="mr-4 text-[#a7a7a7]">{index + 1}</b>
+              <img className="inline w-10 mr-5" src={item.image} alt="" />
+              {item.name}
+            </p>
+            <p className="text-[15px]">{albumData.name}</p>
+            <p className="text-[15px] hidden sm:block">2 days ago</p>
+            <p className="text-[15px] text-center">{item.duration}</p>
+          </div>
+        ))}
     </>
-  ): null;
+  ) : null;
 };
 
 export default DisplayAlbum;
