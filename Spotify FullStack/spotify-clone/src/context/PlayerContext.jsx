@@ -9,25 +9,37 @@ const PlayerContextProvider = (props) => {
   const seekBg = useRef();
   const seekBar = useRef();
 
-  const url = "http://localhost:4000";
-
   const [songsData, setSongsData] = useState([]);
   const [albumsData, setAlbumsData] = useState([]);
   const [track, setTrack] = useState(null);
   const [playStatus, setPlayStatus] = useState(false);
   const [time, setTime] = useState({
-    currentTime: {
-      second: 0,
-      minute: 0,
-    },
-    totalTime: {
-      second: 0,
-      minute: 0,
-    },
+    currentTime: { second: 0, minute: 0 },
+    totalTime: { second: 0, minute: 0 },
   });
 
+  // Flag to check if user has interacted
+  const [userInteracted, setUserInteracted] = useState(false);
+
+  // Handle user interaction to allow autoplay
+  useEffect(() => {
+    const handleUserInteraction = () => {
+      if (!userInteracted) {
+        setUserInteracted(true);
+      }
+    };
+
+    document.addEventListener('click', handleUserInteraction);
+    document.addEventListener('keydown', handleUserInteraction);
+
+    return () => {
+      document.removeEventListener('click', handleUserInteraction);
+      document.removeEventListener('keydown', handleUserInteraction);
+    };
+  }, [userInteracted]);
+
   const play = async () => {
-    if (audioRef.current && !playStatus) {
+    if (audioRef.current && userInteracted) {
       try {
         await audioRef.current.play();
         setPlayStatus(true);
@@ -44,29 +56,27 @@ const PlayerContextProvider = (props) => {
     }
   };
 
-  const playWithId = async (id) => {
+  const playWithId = (id) => {
     const selectedTrack = songsData.find(item => item._id === id);
     if (selectedTrack) {
       setTrack(selectedTrack);
     }
   };
 
-  const previous = async () => {
+  const previous = () => {
     if (track) {
       const currentIndex = songsData.findIndex(item => item._id === track._id);
       if (currentIndex > 0) {
-        const previousTrack = songsData[currentIndex - 1];
-        setTrack(previousTrack);
+        setTrack(songsData[currentIndex - 1]);
       }
     }
   };
 
-  const next = async () => {
+  const next = () => {
     if (track) {
       const currentIndex = songsData.findIndex(item => item._id === track._id);
       if (currentIndex < songsData.length - 1) {
-        const nextTrack = songsData[currentIndex + 1];
-        setTrack(nextTrack);
+        setTrack(songsData[currentIndex + 1]);
       }
     }
   };
@@ -79,50 +89,37 @@ const PlayerContextProvider = (props) => {
     }
   };
 
-  const getSongsData = async () => {
-    try {
-      const response = await axios.get(`${url}/api/song/list`);
-      setSongsData(response.data.songs);
-      if (response.data.songs.length > 0) {
-        setTrack(response.data.songs[0]);
-      }
-    } catch (error) {
-      console.error("Error fetching songs data:", error);
-    }
-  };
-
-  const getAlbumsData = async () => {
-    try {
-      const response = await axios.get(`${url}/api/album/list`);
-      setAlbumsData(response.data.albums);
-    } catch (error) {
-      console.error("Error fetching albums data:", error);
-    }
-  };
-
+  // Fetch songs and albums data
   useEffect(() => {
-    getSongsData();
-    getAlbumsData();
+    const fetchData = async () => {
+      try {
+        const songsResponse = await axios.get("http://localhost:4000/api/song/list");
+        setSongsData(songsResponse.data.songs);
+        if (songsResponse.data.songs.length > 0) {
+          setTrack(songsResponse.data.songs[0]);
+        }
+
+        const albumsResponse = await axios.get("http://localhost:4000/api/album/list");
+        setAlbumsData(albumsResponse.data.albums);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
   }, []);
 
+  // Handle track changes
   useEffect(() => {
     if (track && audioRef.current) {
-      console.log('Setting audio source to:', track.audio);
       audioRef.current.src = track.audio;
       audioRef.current.load();
-      // Start playback after setting the source
-      const playAudio = async () => {
-        try {
-          await audioRef.current.play();
-          setPlayStatus(true);
-        } catch (error) {
-          console.error('Play error:', error);
-        }
-      };
-      playAudio(); // Ensure playback starts after setting the source
+      if (playStatus) {
+        play(); // Play the audio if playStatus is true
+      }
     }
-  }, [track]);
+  }, [track, playStatus]);
 
+  // Update seek bar and time
   useEffect(() => {
     const updateSeekBar = () => {
       if (audioRef.current && seekBar.current) {
@@ -150,7 +147,7 @@ const PlayerContextProvider = (props) => {
         audioRef.current.ontimeupdate = null;
       }
     };
-  }, [audioRef]);
+  }, []);
 
   const contextValue = {
     audioRef,
