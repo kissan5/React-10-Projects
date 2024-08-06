@@ -9,8 +9,12 @@ import DisplayHome from "./DisplayHome";
 import DisplayAlbum from "./DisplayAlbum";
 import { useContext } from "react";
 import { PlayerContext } from "../context/PlayerContext";
+import PlaylistPage from "./PlaylistPage";
+import Signup from "../pages/Signup";
+import Login from "../pages/Login";
 
 const Display = () => {
+  
   const { albumsData } = useContext(PlayerContext);
 
   const displayRef = useRef();
@@ -44,6 +48,10 @@ const Display = () => {
               <DisplayAlbum album={albumsData.find((x) => x._id == albumId)} />
             }
           />
+          <Route path="/create-playlist" element={<PlaylistPage />} />
+
+          {/* <Route path="/sign-up" element={<Signup />} />
+          <Route path="/login" element={<Login />} /> */}
         </Routes>
       ) : null}
     </div>
