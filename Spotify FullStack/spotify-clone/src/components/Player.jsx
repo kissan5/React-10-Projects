@@ -70,11 +70,11 @@ const Player = () => {
           <div
             ref={seekBg}
             onClick={seekSong}
-            className="w-[60vw] max-w-[500px] bg-gray-500 rounded-full cursor-pointer"
+            className="w-[60vw] max-w-[500px] bg-gray-500 rounded-full cursor-pointer group"
           >
             <hr
               ref={seekBar}
-              className="h-1 border-none w-0 bg-white rounded-full"
+              className="h-1 border-none w-0 bg-white rounded-full group-hover:bg-green-600"
             />
           </div>
           <p>
