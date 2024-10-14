@@ -3,7 +3,13 @@ import fs from "fs";
 
 // add food item
 const addFood = async (req, res) => {
-  let image_filename = `${req.filename}`;
+  if (!req.file) {
+    return res
+      .status(400)
+      .json({ success: false, message: "No file uploaded" });
+  }
+  console.log(req.file);
+  let image_filename = `${req.file.filename}`;
 
   const food = new foodModel({
     name: req.body.name,
