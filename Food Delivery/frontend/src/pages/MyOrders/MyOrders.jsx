@@ -47,7 +47,7 @@ const MyOrders = () => {
                 <span>&#x25cf;</span>
                 <b>{order.status}</b>
               </p>
-              <button className="">Track Order</button>
+              <button onClick={fetchOrders} className="">Track Order</button>
             </div>
           );
         })}
