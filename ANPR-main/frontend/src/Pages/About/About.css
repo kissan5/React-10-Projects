@@ -1,0 +1,179 @@
+/* General Styling */
+.about-page {
+  color: #333;
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Banner Section */
+.banner-section {
+  position: relative;
+  left: 50%;
+  right: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  background-color: var(--primary-color);
+  color: white;
+  padding: 80px 20px;
+  text-align: center;
+  margin: 0;
+}
+
+.banner-content {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  z-index: 2;
+}
+
+.banner-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+.banner-content h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.banner-content p {
+  font-size: 1.2rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Hero Section */
+.hero-section {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.hero-section h1 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.hero-section p {
+  font-size: 1.2rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Mission Section */
+.mission-section {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+/* Values Section */
+.values-section {
+  padding: 40px 20px;
+}
+
+.values-list {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.value-item {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 5px;
+  width: 300px;
+  text-align: center;
+}
+
+.value-item h3 {
+  margin-bottom: 10px;
+  color: var(--primary-color);
+}
+
+/* Technology Section */
+.technology-section {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+/* Team Section */
+.team-section {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.team-list {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.team-member {
+  text-align: center;
+  width: 180px;
+}
+
+.team-member img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.team-member h4 {
+  font-size: 1.1rem;
+  color: var(--primary-color);
+  margin: 5px 0;
+}
+
+/* Testimonials Section */
+.testimonials-section {
+  padding: 40px 20px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.testimonial {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+  font-style: italic;
+  color: #333;
+}
+
+.testimonial p {
+  margin-bottom: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .values-list,
+  .team-list {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .value-item,
+  .team-member {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+
+  .hero-section p {
+    font-size: 1rem;
+  }
+}

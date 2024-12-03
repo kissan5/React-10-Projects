@@ -1,0 +1,12 @@
+.table-container {
+  max-height: 450px; /* Set a maximum height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  border: 1px solid #ddd; /* Optional: Add a border for better visibility */
+  border-radius: 5px; /* Optional: Rounded corners */
+}
+
+.table {
+  min-width: 100%; /* Ensure the table takes full width */
+  border-collapse: collapse; /* Collapse borders for better spacing */
+}
+

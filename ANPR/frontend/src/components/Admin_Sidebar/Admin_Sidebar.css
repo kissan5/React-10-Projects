@@ -1,0 +1,78 @@
+.sidebar {
+  width: 250px;
+  background-color: #2c0342; /* Matches the header but slightly darker for contrast */
+  color: white;
+  padding: 6px;
+  position: relative;
+  height: 100vh;
+  overflow-y: auto;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+  margin-top: 15px;
+}
+
+.user-info {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #5E4B8D; /* Matches header color for brand consistency */
+  border-radius: 5px;
+  
+}
+
+.user-name {
+  font-size: 1.2em;
+  color: white;
+  font-weight: bold;
+  margin: 0;
+}
+
+.user-email {
+  font-size: 0.9em;
+  margin: 0;
+  color: white; /* Light lavender for better readability */
+}
+
+.sidebar-menu {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar-menu li {
+  margin: 10px 0;
+}
+
+.sidebar-menu li a {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.sidebar-menu li a:hover {
+  background-color: #6c5c8d; /* Soft highlight for hover */
+  color: #d1c4e9; /* Light lavender on hover */
+}
+
+.sidebar-menu li a.active {
+  background-color: #5E4B8D; /* Active color matches header */
+  color: white;
+}
+
+.icon {
+  margin-right: 10px;
+}
+
+.logout {
+  margin-top: auto;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.logout:hover {
+  background-color: #dc3545; /* Red for logout hover for clarity */
+  color: #f8d7da; /* Light pink for contrast */
+}
