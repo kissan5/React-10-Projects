@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { TypeAnimation } from "react-type-animation";
+import { HiOutlineDownload } from "react-icons/hi";
 
 const socialLinks = [
   {
@@ -18,9 +19,17 @@ const socialLinks = [
   },
 ];
 
+const designs = [
+  "Design 1",
+  "Design 2",
+  "Design 3",
+  "Design 4",
+];
+
 function HomePage() {
   return (
     <motion.div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white p-4 md:p-8">
+      {/* Header Section */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -80,6 +89,64 @@ function HomePage() {
           </motion.p>
         </div>
       </motion.div>
+
+      {/* Showcase Designs Section */}
+      <section className="mt-16">
+        <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+          My Designs
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+          {designs.map((design, index) => (
+            <div
+              key={index}
+              className="bg-gray-800 p-4 rounded-lg shadow-md hover:shadow-xl transition-shadow text-center"
+            >
+              <p className="text-lg text-gray-300">{design}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section className="mt-16">
+        <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent">
+          What I Do
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
+            <h3 className="text-xl font-bold text-purple-400">Graphic Design</h3>
+            <p className="text-gray-300 mt-4">
+              Creating visually stunning designs that resonate with your brand.
+            </p>
+          </div>
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
+            <h3 className="text-xl font-bold text-purple-400">Digital Marketing</h3>
+            <p className="text-gray-300 mt-4">
+              Optimizing your online presence to reach the right audience.
+            </p>
+          </div>
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
+            <h3 className="text-xl font-bold text-purple-400">UI/UX Design</h3>
+            <p className="text-gray-300 mt-4">
+              Designing user-friendly and aesthetically pleasing interfaces.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Download CV Section */}
+      <section className="mt-16 text-center">
+        <h2 className="text-3xl font-bold bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent">
+          Download My CV
+        </h2>
+        <a
+          href="/path/to/your-cv.pdf"
+          download
+          className="mt-8 inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg shadow-md transition-all"
+        >
+          <HiOutlineDownload className="mr-2 text-2xl" /> Download Now
+        </a>
+      </section>
     </motion.div>
   );
 }
