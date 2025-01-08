@@ -1,49 +1,92 @@
-import express from 'express';
-import User from '../models/User.js';
-import jwt from 'jsonwebtoken';
+import express from "express";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import User from "../models/User.js";
 
 const router = express.Router();
 
 // Signup Route
-router.post('/signup', async (req, res) => {
-    try {
-        const { email, password } = req.body;
+router.post("/signup", async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-        if (!email || !password) {
-            return res.status(400).json({ message: 'Please provide email and password' });
-        }
-
-        const user = await User.create({ email, password });
-
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-        res.status(201).json({ token, user });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+    if (!email || !password) {
+      return res.status(400).json({ message: "Please provide email and password" });
     }
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already in use" });
+    }
+
+    // Hash password before saving
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await User.create({ email, password: hashedPassword });
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+    res.status(201).json({ token, user });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 // Login Route
-router.post('/login', async (req, res) => {
-    try {
-        const { email, password } = req.body;
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-        if (!email || !password) {
-            return res.status(400).json({ message: 'Please provide email and password' });
-        }
-
-        const user = await User.findOne({ email });
-
-        if (!user || !(await user.matchPassword(password))) {
-            return res.status(401).json({ message: 'Invalid email or password' });
-        }
-
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-        res.json({ token, user });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+    if (!email || !password) {
+      return res.status(400).json({ message: "Please provide email and password" });
     }
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordMatch) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+    res.json({ token, user });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Mocked Google Login Route
+router.post("/google", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ message: "Please provide an email" });
+    }
+
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      // Create a new user if not exists
+      user = await User.create({
+        email,
+        password: "google-login", // Placeholder password, not used
+      });
+    }
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+    res.json({ token, user });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 export default router;
