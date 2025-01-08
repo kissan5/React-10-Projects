@@ -14,7 +14,7 @@ connectDB();
 configCloudinary();
 
 
-//midellewares
+//middlewares
 app.use(express.json());
 app.use(cors());
 
