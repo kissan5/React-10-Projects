@@ -1,5 +1,4 @@
 import express from "express";
-import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
@@ -20,10 +19,9 @@ router.post("/signup", async (req, res) => {
       return res.status(400).json({ message: "Email already in use" });
     }
 
-    // Hash password before saving
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = await User.create({ email, password: hashedPassword });
+    // Create and save user
+    const user = new User({ email, password });
+    await user.save();
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
@@ -44,13 +42,7 @@ router.post("/login", async (req, res) => {
 
     const user = await User.findOne({ email });
 
-    if (!user) {
-      return res.status(401).json({ message: "Invalid email or password" });
-    }
-
-    const isPasswordMatch = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordMatch) {
+    if (!user || !(await user.matchPassword(password))) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
@@ -62,7 +54,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// Mocked Google Login Route
+// Google Login Route
 router.post("/google", async (req, res) => {
   try {
     const { email } = req.body;
@@ -75,10 +67,8 @@ router.post("/google", async (req, res) => {
 
     if (!user) {
       // Create a new user if not exists
-      user = await User.create({
-        email,
-        password: "google-login", // Placeholder password, not used
-      });
+      user = new User({ email, password: "google-login" });
+      await user.save();
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });

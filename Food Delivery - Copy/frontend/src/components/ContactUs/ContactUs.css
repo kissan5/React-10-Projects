@@ -1,0 +1,125 @@
+/* Basic styles for the contact page */
+.contact-us {
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+    gap: 2rem;
+    margin: 2rem;
+  }
+  
+  .contact-info {
+    width: 40%;
+  }
+  
+  .contact-info h1 {
+    font-size: 2rem;
+    color: #fe6032;
+  }
+  
+  .contact-info p {
+    font-size: 1.1rem;
+    color: #555;
+  }
+  
+  .contact-details {
+    margin-top: 2rem;
+  }
+  
+  .contact-details div {
+    margin-bottom: 1rem;
+  }
+  
+  .contact-details strong {
+    font-weight: bold;
+  }
+  
+  .contact-form {
+    width: 50%;
+    background-color: #f8f8f8;
+    padding: 2rem;
+    border-radius: 8px;
+  }
+  
+  .contact-form h2 {
+    font-size: 1.8rem;
+    color: #fe6032; /* Secondary color */
+    margin-bottom: 1rem;
+  }
+  
+  .input-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .input-group label {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+  
+  .input-group input,
+  .input-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .input-group textarea {
+    height: 150px;
+    resize: vertical;
+  }
+  
+  .submit-btn {
+    background-color: #fe6032; /* Secondary color */
+    color: white;
+    font-size: 1.1rem;
+    padding: 1rem;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .submit-btn:hover {
+    background-color: #ca441b; /* Primary color */
+  }
+  
+  .thank-you-message {
+    background-color: #e8f8e1;
+    color: #fe6032; /* Primary color */
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+  
+  @media (max-width: 768px) {
+    .contact-us {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .contact-info,
+    .contact-form {
+      width: 100%;
+    }
+  
+    .contact-form {
+      margin-top: 2rem;
+    }
+  
+    .input-group input,
+    .input-group textarea {
+      padding: 0.6rem;
+      font-size: 1rem;
+    }
+  
+    .submit-btn {
+      padding: 1rem;
+    }
+  }
+  
