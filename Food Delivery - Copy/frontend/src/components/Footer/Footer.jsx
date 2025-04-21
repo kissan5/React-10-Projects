@@ -9,12 +9,11 @@ const Footer = () => {
         <div className="footer-content-left">
           <img src={assets.logo} alt="" />
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
-            voluptates fuga quibusdam, maiores magni nam unde nulla, vel quidem
-            aliquid totam voluptate quisquam, voluptatibus voluptatum. Totam,
-            magni. Libero itaque totam aut fugiat hic accusamus odit deserunt
-            vitae, ullam veniam exercitationem quod rem, autem reprehenderit
-            dignissimos? Consectetur esse impedit fuga aliquid?
+            At FoodDel, we are committed to delivering your favorite meals from
+            the best local restaurants straight to your doorstep. With a focus
+            on quality, speed, and convenience, we make sure your cravings are
+            satisfied effortlessly. From easy ordering to real-time tracking,
+            enjoy a seamless food delivery experience every time.
           </p>
           <div className="footer-social-icons">
             <img src={assets.facebook_icon} alt="" />
@@ -34,7 +33,7 @@ const Footer = () => {
         <div className="footer-content-right">
           <h2>GET IN TOUCH</h2>
           <ul>
-            <li>+91 8210951464</li>
+            <li>+91 12345 67890</li>
             <li>Contact@foodDel</li>
           </ul>
         </div>
